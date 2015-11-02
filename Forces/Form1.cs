@@ -54,8 +54,6 @@ namespace Forces
         }
 
         double prevD = 0;
-        double minD = Double.MaxValue;
-        double maxD = Double.MinValue;
         double prevAngle = -Math.PI;
         double prevT = 0;
         long i = 0;
@@ -100,9 +98,9 @@ namespace Forces
         }
 
         static Point3D center = Point3D.Zero;
-        static Point3D mx = new Point3D(800, 400,100);
-        static Point3D start1 = new Point3D(00, 200,50);
-        static Point3D start2 = new Point3D(200, 200,80);
+        static Matrix3D mx =  Matrix3D.D(200, 400, 0) * Matrix3D.S(0.5) * Matrix3D.X(Math.PI / 2);
+        static Point3D start1 = new Point3D(200, 200,100);
+        static Point3D start2 = new Point3D(200, 200,0);
         static Point3D start3 = new Point3D(-1200, 200,0);
         static Point3D startVel1 = new Point3D(5.4, 0,0);
         static Point3D startVel2 = new Point3D(3.2, 0,0);
@@ -167,12 +165,11 @@ namespace Forces
             g.Clear(Color.White);
             paintClock(g);
             paintTrack(g);
-            var ctr = star.current.toPF(mx, sc);
+            var ctr = star.current.toPF(mx);
             g.DrawEllipse(Pens.Black, ctr.X, ctr.Y, 5, 5);
         }
 
         Pen forcePen = new Pen(Color.FromArgb(50,255,0,0),0.1f);
-        double sc = 0.5;
         private void paintTrack(Graphics g)
         {
             DrawBodyTrack(g, b1, new Pen(Color.Blue, 2));
@@ -184,13 +181,13 @@ namespace Forces
         {
             var _track = body.track.Where((x, i) => i % 1 == 0).ToList();
             var _forces = body.forces.Where((x, i) => i % 1 == 0).ToList();
-            if (_track.Count > 1)
-                g.DrawCurve(trackPen, _track.Select(x => x.toPF(mx, sc)).ToArray());
+            var cv = _track.Select(x => x.toPF(mx)).ToArray();
+            if (cv.Length > 1) g.DrawCurve(trackPen, cv);
             for (int i = 0; i < _track.Count - 1; ++i)
                 if (_forces[i].Length > 0)
-                    g.DrawLine(forcePen, _track[i].toPF(mx, sc), (_track[i] + _forces[i] * 500).toPF(mx, sc));
-           var cur = body.current.toPF(mx, sc);
-           g.DrawLine(forcePen, cur, (body.current + body.currentF * 1000).toPF(mx, sc));
+                    g.DrawLine(forcePen, _track[i].toPF(mx), (_track[i] + _forces[i] * 500).toPF(mx));
+           var cur = body.current.toPF(mx);
+          // g.DrawLine(forcePen, cur, (body.current + body.currentF * 1000).toPF(mx));
            g.DrawEllipse(trackPen, cur.X-3, cur.Y-3, 6, 6);
         }
 
