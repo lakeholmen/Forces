@@ -31,26 +31,26 @@ namespace Forces
     public class Body
     {
 
-        public List<PointD> track = new List<PointD>();
-        public List<PointD> velocity = new List<PointD>();
-        public List<PointD> forces = new List<PointD>();
+        public List<Point3D> track = new List<Point3D>();
+        public List<Point3D> velocity = new List<Point3D>();
+        public List<Point3D> forces = new List<Point3D>();
         public double mass;
-        public PointD startP;
-        public PointD startVel;
+        public Point3D startP;
+        public Point3D startVel;
         public string name;
 
-        public Body(PointD start, PointD vel,string n, double m)
+        public Body(Point3D start, Point3D vel,string n, double m)
         {
             name = n;
             track.Add(start);
             velocity.Add(vel);
-            forces.Add(PointD.Zero);
+            forces.Add(Point3D.Zero);
             mass = m;
             startP = start;
             startVel = vel;
             current = start;
             currentV = vel;
-            currentF = PointD.Zero;
+            currentF = Point3D.Zero;
         }
 
         double prevD = 0;
@@ -59,14 +59,14 @@ namespace Forces
         double prevAngle = -Math.PI;
         double prevT = 0;
         long i = 0;
-        public PointD current;
-        public PointD currentV;
-        public PointD currentF;
-        public PointD newPos;
-        public PointD newV;
-        public PointD newF;
+        public Point3D current;
+        public Point3D currentV;
+        public Point3D currentF;
+        public Point3D newPos;
+        public Point3D newV;
+        public Point3D newF;
 
-        public void SetCurrent(double dt,PointD f,double t)
+        public void SetCurrent(double dt,Point3D f,double t)
         {
             var c  = current;
             var v  = currentV;
@@ -99,21 +99,21 @@ namespace Forces
             InitializeTrack();
         }
 
-        static PointD center = PointD.Zero;
-        static PointD mx = new PointD(800, 400,100);
-        static PointD start1 = new PointD(00, 200,50);
-        static PointD start2 = new PointD(200, 200,80);
-        static PointD start3 = new PointD(-1200, 200,0);
-        static PointD startVel1 = new PointD(5.4, 0,0);
-        static PointD startVel2 = new PointD(3.2, 0,0);
-        static PointD startVel3 = new PointD(1.6, 0,0);
+        static Point3D center = Point3D.Zero;
+        static Point3D mx = new Point3D(800, 400,100);
+        static Point3D start1 = new Point3D(00, 200,50);
+        static Point3D start2 = new Point3D(200, 200,80);
+        static Point3D start3 = new Point3D(-1200, 200,0);
+        static Point3D startVel1 = new Point3D(5.4, 0,0);
+        static Point3D startVel2 = new Point3D(3.2, 0,0);
+        static Point3D startVel3 = new Point3D(1.6, 0,0);
 
         List<Body> bodies = new List<Forces.Body>();
 
         Body b1 = new Body(start1,startVel1,"1",100);
         Body b2 = new Body(start2,startVel2,"2", 10);
         Body b3 = new Body(start3, startVel3,"3", 10);
-        Body star = new Body(PointD.Zero, PointD.Zero, "S", 500000);
+        Body star = new Body(Point3D.Zero, Point3D.Zero, "S", 500000);
 
         private void InitializeTrack()
         {
@@ -147,7 +147,7 @@ namespace Forces
 
         private void move(double timeDelta, Body b, double finalTime)
         {
-            var force = PointD.Zero;
+            var force = Point3D.Zero;
             foreach (var c in bodies)
             {
                 if (c == b) continue;
