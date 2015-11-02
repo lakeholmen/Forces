@@ -10,17 +10,18 @@ namespace Forces
         public double Y;
         public double Z;
 
-        public PointD(double x, double y)
+        public PointD(double x, double y,double z)
         {
             X = x;
             Y = y;
+            Z = z;
         }
 
-        public static PointD Zero = new PointD(0, 0);
+        public static PointD Zero = new PointD(0, 0,0);
 
 
 
-        public double Length { get { return Math.Sqrt(X * X + Y * Y); } }
+        public double Length { get { return Math.Sqrt(X * X + Y * Y+Z*Z); } }
 
         internal PointF toPF()
         {
@@ -29,17 +30,17 @@ namespace Forces
 
         public static PointD operator +(PointD @this,PointD that)
         {
-            return new PointD(@this.X + that.X, @this.Y + that.Y); 
+            return new PointD(@this.X + that.X, @this.Y + that.Y,@this.Z+that.Z); 
         }
 
         public static PointD operator -(PointD @this, PointD that)
         {
-            return new PointD(@this.X - that.X, @this.Y - that.Y);
+            return new PointD(@this.X - that.X, @this.Y - that.Y, @this.Z - that.Z);
         }
 
         public static PointD operator *(PointD @this, double fac)
         {
-            return new PointD(@this.X *fac, @this.Y *fac);
+            return new PointD(@this.X *fac, @this.Y *fac,@this.Z*fac);
         }
 
         public static implicit operator PointF(PointD @this)

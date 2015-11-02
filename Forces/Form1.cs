@@ -25,7 +25,7 @@ namespace Forces
 {
     public class World
     {
-        public static    double forceFac = 0.1;
+        public static    double forceFac = 0.01;
     }
 
     public class Body
@@ -44,7 +44,7 @@ namespace Forces
             name = n;
             track.Add(start);
             velocity.Add(vel);
-            forces.Add(new PointD(0, 0));
+            forces.Add(PointD.Zero);
             mass = m;
             startP = start;
             startVel = vel;
@@ -99,21 +99,21 @@ namespace Forces
             InitializeTrack();
         }
 
-        static PointD center = new PointD(0, 0);
-        static PointD mx = new PointD(800, 400);
-        static PointD start1 = new PointD(00, 200);
-        static PointD start2 = new PointD(200, 200);
-        static PointD start3 = new PointD(-1200, 200);
-        static PointD startVel1 = new PointD(5.4, 0);
-        static PointD startVel2 = new PointD(3.2, 0);
-        static PointD startVel3 = new PointD(1.6, 0);
+        static PointD center = PointD.Zero;
+        static PointD mx = new PointD(800, 400,100);
+        static PointD start1 = new PointD(00, 200,50);
+        static PointD start2 = new PointD(200, 200,80);
+        static PointD start3 = new PointD(-1200, 200,0);
+        static PointD startVel1 = new PointD(5.4, 0,0);
+        static PointD startVel2 = new PointD(3.2, 0,0);
+        static PointD startVel3 = new PointD(1.6, 0,0);
 
         List<Body> bodies = new List<Forces.Body>();
 
         Body b1 = new Body(start1,startVel1,"1",100);
         Body b2 = new Body(start2,startVel2,"2", 10);
         Body b3 = new Body(start3, startVel3,"3", 10);
-        Body star = new Body(PointD.Zero, PointD.Zero, "S", 50000);
+        Body star = new Body(PointD.Zero, PointD.Zero, "S", 500000);
 
         private void InitializeTrack()
         {
